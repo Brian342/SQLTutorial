@@ -1,17 +1,33 @@
-/*
-Group By, Order By 
-*/
-SELECT*
-FROM EmployeeDemographics
--- ORDER BY AGE DESC, Gender DESC
-ORDER BY 4 DESC, 5 DESC
+/* Where Statement - helps limit the amount of data and specify the data you want to return
+=, <>, <, >, And, Or, Like, Null, Not Null, In */
 
--- SELECT Gender, COUNT(Gender) AS CounterGender
+-- SELECT *
 -- FROM EmployeeDemographics
--- WHERE Age > 31
---GROUP BY Gender, Age
--- GROUP BY Gender
---ORDER BY CounterGender DESC
--- ORDER BY Gender ASC
--- shows the unique value and roll them up
--- the count gender is a derived field based on the gender column
+-- WHERE FirstName <> 'Brian' -- = sign returns the name <> returns every value except the name Brian
+
+/*The AND Command*/
+-- SELECT *
+-- FROM EmployeeDemographics
+-- WHERE Age <= 32 AND Gender = 'Male'
+
+/*The Or Command*/
+-- SELECT *
+-- FROM EmployeeDemographics
+-- WHERE Age <= 32 OR Gender = 'Male'
+
+ /* The Like Command */
+-- SELECT *
+-- FROM EmployeeDemographics --The percentage sign means wildcard
+-- WHERE LastName LIKE '%S%' -- (s%)every lastname where we start with an s. (%s%) returns every name that contains an s anywhere in the name
+
+-- SELECT *
+-- FROM EmployeeDemographics --The percentage sign means wildcard
+-- WHERE LastName LIKE 'S%c%ott%'
+
+-- SELECT *
+-- FROM EmployeeDemographics
+-- WHERE FirstName is Not NULL --looks at the whole column and checks if it is null or not
+
+SELECT *
+FROM EmployeeDemographics
+WHERE FirstName IN ('Brian','Michael') --The IN can be used in place of equal sign
