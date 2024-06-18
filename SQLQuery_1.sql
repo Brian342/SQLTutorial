@@ -6,6 +6,14 @@
 -- Gender VARCHAR(50)
 -- )
 
+
+-- USE master;
+-- GO
+-- IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'WareHouseEmployeeDemographic')
+-- DROP DATABASE [WareHouseEmployeeDemographic];
+-- GO
+
+
 -- CREATE TABLE EmployeSalary
 -- (EmployeeID int,
 -- JobTitle varchar(50),
@@ -31,6 +39,8 @@
 -- (1007, 'Supplier Relations', 41000),
 -- (1009, 'Salesman', 48000),
 -- (1009, 'Accountant', 42000)
+
+
 
 /* Select Statement
 Top, Distinct, Count, As, Max, Min, Avg */
@@ -60,5 +70,22 @@ Top, Distinct, Count, As, Max, Min, Avg */
 -- FROM EmployeSalary
 
 
-SELECT * -- when you change the database name make sure you specify the location on the from statement
-FROM SqlTutorial.dbo.EmployeSalary
+-- SELECT * -- when you change the database name make sure you specify the location on the from statement
+-- FROM SqlTutorial.dbo.EmployeSalary
+
+
+--WareHouseDataBase
+-- CREATE TABLE WareHouseEmployeeDemographic
+--     (EmployeeID INT,
+--     FirstName varchar(50),
+--     LastName varchar(50),
+--     Age INT,
+--     Gender varchar(50))
+
+-- INSERT INTO WareHouseEmployeeDemographic VALUES
+-- (1001, 'John', 'paul', 25, 'Male'),
+-- (1002, 'water', 'drink',30, 'Female'),
+-- (1003, 'Rock', 'Stone', 29, 'Male'),
+-- (1004, 'Villa', 'zayn', 31, 'Female')
+
+Select * from WareHouseEmployeeDemographic
