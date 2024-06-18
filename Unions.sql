@@ -1,11 +1,18 @@
 /* Union Union All */
 --Union select data from both tables and put them on one table
 
-SELECT *
+SELECT EmployeeID,FirstName,Age
 FROM SqlTutorial.dbo.EmployeeDemographics
-UNION
-SELECT *
-FROm SqlTutorial.dbo.WareHouseEmployeeDemographic
+UNION 
+SELECT EmployeeID, JobTitle,Salary
+FROM SqlTutorial.dbo.EmployeSalary
+ORDER BY EmployeeID
+
+-- SELECT EmployeeID,FirstName,Age
+-- FROM SqlTutorial.dbo.EmployeeDemographics
+-- UNION 
+-- SELECT *
+-- FROm SqlTutorial.dbo.WareHouseEmployeeDemographic
 
 -- SELECT *
 -- FROM SqlTutorial.dbo.EmployeeDemographics
