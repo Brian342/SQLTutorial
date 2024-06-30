@@ -8,5 +8,6 @@ JOIN SqlTutorial..EmployeSalary sal
     ON dem.EmployeeID = sal.EmployeeID
 WHERE Salary > '45000'
 )
+
 SELECT FirstName, AVGSalary
 FROM CTE_Employee
