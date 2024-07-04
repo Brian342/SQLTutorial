@@ -48,4 +48,9 @@ JOIN EmployeeDemographics dem
      ON SUBSTRING(err.FirstName, 1, 3) = SUBSTRING(dem.FirstName, 1, 3)
 
 
--- Using Upper, Lower
+-- Using Upper, Lower Takes all character in a text and makes them upper or lower cases
+SELECT FirstName, LOWER(FirstName)
+FROM EmployeeErrors 
+
+SELECT FirstName, Upper(FirstName)
+FROM EmployeeErrors 
