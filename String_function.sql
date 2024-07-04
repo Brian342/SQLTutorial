@@ -31,3 +31,8 @@ FROM EmployeeErrors
 
 SELECT EmployeeID, RTRIM(EmployeeID) as IDLTriM -- Removes spaces on the right side
 FROM EmployeeErrors 
+
+-- Using Replace
+
+SELECT LastName, REPLACE(LastName, '- Fired', '') as LastNameFixed
+FROM EmployeeErrors 
