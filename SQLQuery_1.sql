@@ -29,6 +29,8 @@
 -- (1007, 'Meredith', 'Palmer', 32, 'Female'),
 -- (1008, 'Stanley', 'Hudson', 38, 'Male'),
 -- (1009, 'Kelvin','Malone', 31,'Male')
+-- (1010, 'Jim', 'Paul', 31, 'Male')
+
 
 -- INSERT INTO EmployeSalary VALUES
 -- (1002, 'Receptionist', 36000),

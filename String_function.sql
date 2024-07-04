@@ -36,3 +36,16 @@ FROM EmployeeErrors
 
 SELECT LastName, REPLACE(LastName, '- Fired', '') as LastNameFixed
 FROM EmployeeErrors 
+
+-- Using Substring
+
+-- SELECT SUBSTRING(FirstName, 1, 3) 
+-- FROM EmployeeErrors 
+
+SELECT err.FirstName, SUBSTRING(err.FirstName, 1, 3), dem.FirstName, SUBSTRING(dem.FirstName, 1, 3)
+FROM EmployeeErrors err
+JOIN EmployeeDemographics dem 
+     ON SUBSTRING(err.FirstName, 1, 3) = SUBSTRING(dem.FirstName, 1, 3)
+
+
+-- Using Upper, Lower
