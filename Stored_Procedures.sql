@@ -27,4 +27,4 @@ group by JobTitle
 SELECT *
 FROM #temp_employee
 
-EXEC Temp_Employee @JobTitle = 'Salesman'
+-- EXEC Temp_Employee @JobTitle = 'Salesman'
