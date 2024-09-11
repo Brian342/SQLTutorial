@@ -66,4 +66,22 @@ order by TotalDeathCount DESC
 
 -- Global Numbers
 
+-- ALTER TABLE CovidDeaths
+-- ALTER COLUMN new_cases NVARCHAR(50)
+select  sum(cast(new_cases as int)) as total_cases, sum(cast(new_deaths as int)) as total_deaths , SUM(cast(new_deaths as int))/sum(cast(new_cases as float))*100 as DeathPercentage
+from Portfolio_project..CovidDeaths
+--where location like %kenya%
+WHERE continent is not NULL
+-- GROUP by date
+order by 1, 2
+
+select *
+FROM Portfolio_project..CovidDeaths dea
+join Portfolio_project..CovidVaccine vac
+    on dea.location = vac.location
+    and dea.date = vac.date
+
+
+
+
 
