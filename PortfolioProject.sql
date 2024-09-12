@@ -75,13 +75,31 @@ WHERE continent is not NULL
 -- GROUP by date
 order by 1, 2
 
-select *
+-- looking at Total population vs vaccinations
+select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
+, SUM(cast(vac.new_vaccinations as int)) over (partition by dea.location order by dea.location,
+dea.date) as Rollingpeoplevaccinated
 FROM Portfolio_project..CovidDeaths dea
 join Portfolio_project..CovidVaccine vac
     on dea.location = vac.location
     and dea.date = vac.date
+where dea.continent is not null
+order by 2,3
 
-
-
-
-
+-- use CTE
+WITH popvsvac (Continent, Location, Date, Population, new_vaccinations, Rollingpeoplevaccinated)
+AS
+(
+select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
+, SUM(cast(vac.new_vaccinations as int)) over (partition by dea.location order by dea.location,
+ dea.date) as Rollingpeoplevaccinated
+--  (Rollingpeoplevaccinated/population)*100
+FROM Portfolio_project..CovidDeaths dea
+join Portfolio_project..CovidVaccine vac
+    on dea.location = vac.location
+    and dea.date = vac.date
+where dea.continent is not null
+-- order by 2,3
+)
+SELECT * , (cast(Rollingpeoplevaccinated AS FLOAT)/Population )* 100
+from popvsvac
