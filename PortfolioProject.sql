@@ -103,3 +103,51 @@ where dea.continent is not null
 )
 SELECT * , (cast(Rollingpeoplevaccinated AS FLOAT)/Population )* 100
 from popvsvac
+
+
+-- Temp Table
+DROP TABLE if exists #percentpopulationvaccinated
+CREATE TABLE #percentpopulationvaccinated
+(
+    Continent nvarchar(255),
+    Location nvarchar(255),
+    Date datetime, 
+    Population numeric,
+    New_vaccinations numeric,
+    Rollingpeoplevaccinated numeric
+)
+
+-- Inserting data into the temp table
+INSERT INTO #percentpopulationvaccinated
+SELECT 
+    dea.continent, 
+    dea.location, 
+    dea.date, 
+    dea.population, 
+    vac.new_vaccinations,
+    SUM(CAST(vac.new_vaccinations AS int)) OVER (PARTITION BY dea.Location ORDER BY dea.location, dea.Date) AS Rollingpeoplevaccinated
+FROM Portfolio_project..CovidDeaths dea
+JOIN Portfolio_project..CovidVaccine vac
+    ON dea.location = vac.location
+    AND dea.date = vac.date
+WHERE dea.continent IS NOT NULL
+
+-- Querying the temp table
+SELECT *, 
+    (Rollingpeoplevaccinated/ population) * 100
+FROM #percentpopulationvaccinated
+
+
+-- Creating view to store data for visualization
+CREATE View percentpopulationvaccinated AS
+SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations,
+    SUM(CAST(vac.new_vaccinations AS int)) OVER (PARTITION BY dea.Location ORDER BY dea.location, dea.Date) AS Rollingpeoplevaccinated
+FROM Portfolio_project..CovidDeaths dea
+JOIN Portfolio_project..CovidVaccine vac
+    ON dea.location = vac.location
+    AND dea.date = vac.date
+WHERE dea.continent IS NOT NULL
+-- order by 2,3
+
+select *
+FROM percentpopulationvaccinated
