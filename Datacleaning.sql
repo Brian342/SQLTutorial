@@ -37,7 +37,9 @@ join Portfolio_project.dbo.NashvilleHousing b
     and a.[UniqueID] <> b.[UniqueID]
 where a.PropertyAddress is null
 
+
 -- Breaking out Address into Individual columns (Address, City, State)
+
 SELECT PropertyAddress
 FROM Portfolio_project.dbo.NashvilleHousing
 
@@ -97,3 +99,27 @@ set OwnerSplitState = PARSENAME(Replace(OwnerAddress, ',','.'),1)
 
 SELECT *
 FROM  Portfolio_project.dbo.NashvilleHousing
+
+
+-- change Y and N to Yes and No in 'sold as Vacant' field
+SELECT DISTINCT (SoldAsVacant), COUNT(SoldAsVacant)
+FROM Portfolio_project.dbo.NashvilleHousing
+GROUP BY SoldAsVacant
+ORDER BY 2
+
+
+SELECT SoldAsVacant
+, CASE WHEN SoldAsVacant = 'Y' THEN 'Yes'
+        when SoldAsVacant = 'N' THEN 'No'
+        ELSE SoldAsVacant
+        END
+FROM Portfolio_project.dbo.NashvilleHousing
+
+
+UPDATE NashvilleHousing
+SET SoldAsVacant = CASE WHEN SoldAsVacant = 'Y' THEN 'Yes'
+        when SoldAsVacant = 'N' THEN 'No'
+        ELSE SoldAsVacant
+        END
+FROM Portfolio_project.dbo.NashvilleHousing
+
