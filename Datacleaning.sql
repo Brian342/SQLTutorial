@@ -1,163 +1,327 @@
---Cleaning Data in Sql Queries
+-- Data cleaning
+
 SELECT *
-FROM Portfolio_project.dbo.Nashvillehousing
+FROM layoffs 
+;
 
---Standardize Date Format
-SELECT SaleDateConverted, CONVERT(Date,saleDate)
-FROM Portfolio_project.dbo.Nashvillehousing
-
-update Nashvillehousing
-SET SaleDate = CONVERT(Date,SaleDate)
-
-ALTER TABLE Nashvillehousing
-ADD SaleDateConverted Date;
-
-update Nashvillehousing
-SET SaleDateConverted = CONVERT(Date,SaleDate)
+-- 1. Remove Duplicates
+-- 2. Standardize the data
+-- 3. Null Values or Blank values
+-- 4. Remove Any columns
 
 
--- Populate property Address Data
-SELECT *
-FROM Portfolio_project.dbo.NashvilleHousing
---WHERE PropertyAddress is NULL
-order by ParcelID
-
-SELECT a.ParcelID, a.PropertyAddress, b.ParcelID, b.PropertyAddress, ISNULL(a.PropertyAddress, b.PropertyAddress)
-FROM Portfolio_project.dbo.NashvilleHousing a
-join Portfolio_project.dbo.NashvilleHousing b
-    on a.ParcelID = b.ParcelID
-    and a.[UniqueID] <> b.[UniqueID]
-where a.PropertyAddress is null
-
-UPDATE a
-SET PropertyAddress = ISNULL(a.PropertyAddress, b.PropertyAddress)
-FROM Portfolio_project.dbo.NashvilleHousing a
-join Portfolio_project.dbo.NashvilleHousing b
-    on a.ParcelID = b.ParcelID
-    and a.[UniqueID] <> b.[UniqueID]
-where a.PropertyAddress is null
-
-
--- Breaking out Address into Individual columns (Address, City, State)
-
-SELECT PropertyAddress
-FROM Portfolio_project.dbo.NashvilleHousing
-
-SELECT 
-SUBSTRING(PropertyAddress, 1, CHARINDEX(',', PropertyAddress) -1) as Address
-, SUBSTRING(PropertyAddress, CHARINDEX(',', PropertyAddress)+ 1, LEN(PropertyAddress)) as Address
-FROM Portfolio_project.dbo.NashvilleHousing
-
-ALTER TABLE NashvilleHousing
-ADD PropertySplitAddress NVARCHAR(255);
-
-update NashvilleHousing
-SET PropertySplitAddress = SUBSTRING(PropertyAddress, 1, CHARINDEX(',',PropertyAddress) -1)
-
-ALTER TABLE NashvilleHousing
-ADD PropertySplitCity NVARCHAR(255);
-
-update NashVilleHousing
-set PropertySplitCity = SUBSTRING(PropertyAddress, CHARINDEX(',', PropertyAddress) + 1, LEN(PropertyAddress))
+# create table
+CREATE TABLE layoffs_staging
+LIKE layoffs
+;
 
 
 SELECT *
-FROM  Portfolio_project.dbo.NashvilleHousing
+FROM layoffs_staging
+;
 
-
-SELECT OwnerAddress
-FROM  Portfolio_project.dbo.NashvilleHousing
-
-
-select 
-PARSENAME(Replace(OwnerAddress, ',','.'),3)
-, PARSENAME(Replace(OwnerAddress, ',','.'),2)
-, PARSENAME(Replace(OwnerAddress, ',','.'),1)
-from Portfolio_project.dbo.NashvilleHousing
-
-
-ALTER TABLE NashvilleHousing
-ADD OwnerSplitAddress NVARCHAR(255);
-
-update NashvilleHousing
-SET OwnerSplitAddress = PARSENAME(Replace(OwnerAddress, ',','.'),3)
-
-
-ALTER TABLE NashvilleHousing
-ADD OwnerSplitCity NVARCHAR(255);
-
-update NashVilleHousing
-set OwnerSplitCity = PARSENAME(Replace(OwnerAddress, ',','.'),2)
-
-
-ALTER TABLE NashvilleHousing
-ADD OwnerSplitState NVARCHAR(255);
-
-update NashVilleHousing
-set OwnerSplitState = PARSENAME(Replace(OwnerAddress, ',','.'),1)
-
-
+INSERT layoffs_staging
 SELECT *
-FROM  Portfolio_project.dbo.NashvilleHousing
+FROM layoffs
+;
 
+# Removing Duplicates
 
--- change Y and N to Yes and No in 'sold as Vacant' field
-SELECT DISTINCT (SoldAsVacant), COUNT(SoldAsVacant)
-FROM Portfolio_project.dbo.NashvilleHousing
-GROUP BY SoldAsVacant
-ORDER BY 2
-
-
-SELECT SoldAsVacant
-, CASE WHEN SoldAsVacant = 'Y' THEN 'Yes'
-        when SoldAsVacant = 'N' THEN 'No'
-        ELSE SoldAsVacant
-        END
-FROM Portfolio_project.dbo.NashvilleHousing
-
-
-UPDATE NashvilleHousing
-SET SoldAsVacant = CASE WHEN SoldAsVacant = 'Y' THEN 'Yes'
-        when SoldAsVacant = 'N' THEN 'No'
-        ELSE SoldAsVacant
-        END
-FROM Portfolio_project.dbo.NashvilleHousing
-
-
--- Removing Duplicate
-WITH RownumCTE AS(
 SELECT *,
-    ROW_Number() over (
-        PARTITION BY ParcelID,
-                     PropertyAddress,
-                     SalePrice,
-                     SaleDate,
-                     LegalReference
-                     ORDER  BY 
-                        UniqueID
+row_number() OVER(
+PARTITION BY
+	company, industry, total_laid_off, percentage_laid_off, 'date') AS row_num
+FROM layoffs_staging
+;
 
-    ) row_num
-FROM Portfolio_project.dbo.NashvilleHousing
--- order by ParcelID
--- WHERE row_num > 1
+WITH duplicate_cte AS
+(
+SELECT *,
+row_number() OVER(
+PARTITION BY
+	company, location, industry, total_laid_off, percentage_laid_off, 'date', stage, country, funds_raised_millions) AS row_num
+FROM layoffs_staging
+
 )
 SELECT *
-from RownumCTE
+FROM duplicate_cte
 WHERE row_num > 1
--- order by PropertyAddress
+;
+
+SELECT *
+FROM layoffs_staging
+WHERE company = 'Oyster'
+;
+
+
+
+
+-- Deleting the duplicate row
+WITH duplicate_cte AS
+(
+SELECT *,
+row_number() OVER(
+PARTITION BY
+	company, location, industry, total_laid_off, percentage_laid_off, 
+    'date', stage, country, funds_raised_millions) AS row_num
+FROM layoffs_staging
+
+)
+SELECT *
+FROM duplicate_cte
+WHERE row_num > 1
+;
+
+
+
+CREATE TABLE `layoffs_staging2` (
+  `company` text,
+  `location` text,
+  `industry` text,
+  `total_laid_off` int DEFAULT NULL,
+  `percentage_laid_off` text,
+  `date` text,
+  `stage` text,
+  `country` text,
+  `funds_raised_millions` int DEFAULT NULL,
+  `row_num` INT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 
 SELECT *
-FROM Portfolio_project.dbo.NashvilleHousing
+FROM layoffs_staging2
+;
 
+INSERT INTO layoffs_staging2
+SELECT *,
+row_number() OVER(
+PARTITION BY
+	company, location, industry, total_laid_off, percentage_laid_off, 
+    'date', stage, country, funds_raised_millions) AS row_num
+FROM layoffs_staging
+;
 
--- Delete unused columns
 SELECT *
-FROM Portfolio_project.dbo.NashvilleHousing
+FROM layoffs_staging2
+WHERE row_num > 1
+;
 
-ALTER TABLE Portfolio_project.dbo.NashvilleHousing
-DROP COLUMN OwnerAddress, TaxDistrict, PropertyAddress
+-- delete the duplicate data 
+DELETE
+FROM layoffs_staging2
+WHERE row_num > 1
+;
+-- Checking if they have been deleted 
+SELECT *
+FROM layoffs_staging2
+WHERE row_num > 1
+;
 
-ALTER TABLE Portfolio_project.dbo.NashvilleHousing
-DROP COLUMN SaleDate
- 
+-- Standardizing Data = finding issues in your data and handling them
+-- SELECT DISTINT(company)
+SELECT company, (TRIM(company)) AS trimmed
+FROM layoffs_staging2
+;
+
+UPDATE layoffs_staging2
+SET company = TRIM(company)
+;
+
+
+SELECT DISTINCT industry
+FROM layoffs_staging2
+ORDER BY 1
+;
+
+SELECT *
+FROM layoffs_staging2
+WHERE industry LIKE 'Crypto%'
+;
+
+UPDATE layoffs_staging2
+SET industry = 'Crypto'
+WHERE industry LiKE 'Crypto%';
+
+
+-- location
+SELECT DISTINCT country
+FROM layoffs_staging2
+ORDER BY 1
+;
+
+
+-- country
+SELECT DISTINCT country
+FROM layoffs_staging2
+ORDER BY 1
+;
+
+
+SELECT *
+FROM layoffs_staging2
+WHERE country LIKE 'United States%'
+ORDER BY 1
+;
+
+SELECT DISTINCT country, TRIM(TRAILING '.' FROM country)
+FROM layoffs_staging2
+ORDER BY 1
+;
+
+
+UPDATE layoffs_staging2 
+SET country = TRIM(TRAILING '.' FROM country)
+WHERE country LIKE 'United States%'
+;
+
+
+-- date
+SELECT `date`,
+str_to_date(`date`, '%m/%d/%Y')
+FROM layoffs_staging2
+;
+
+UPDATE layoffs_staging2
+SET `date` = str_to_date(`date`, '%m/%d/%Y')
+;
+
+SELECT `date`
+FROM layoffs_staging2
+;
+
+ALTER TABLE layoffs_staging2
+MODIFY COLUMN `date` date
+;
+
+SELECT *
+FROM layoffs_staging2
+;
+
+
+-- 4. Remove Any columns
+
+SELECT *
+FROM layoffs_staging2
+WHERE total_laid_off IS NULL
+AND percentage_laid_off IS NULL
+;
+
+
+DELETE
+FROM layoffs_staging2
+WHERE total_laid_off IS NULL
+AND percentage_laid_off IS NULL
+;
+
+SELECT *
+FROM layoffs_staging2
+;
+
+ALTER table layoffs_staging2
+DROP column row_num
+;
+
+
+-- 3. Null Values or Blank values
+-- industry
+
+UPDATE layoffs_staging2
+set industry = null
+where industry = ''
+;
+
+SELECT  industry
+FROM layoffs_staging2
+WHERE industry IS NULL 
+OR industry = ''
+;
+
+select *
+from layoffs_staging2
+-- where company = 'Airbnb'
+where company LIKE 'Bally%'
+
+;
+
+
+select t1.industry, t2.industry
+from layoffs_staging2 t1
+join layoffs_staging2 t2
+	on t1.company = t2.company
+where (t1.industry is null or t1.industry = '')
+and t2.industry is not null
+;
+
+
+UPDATE layoffs_staging2 t1
+join layoffs_staging2 t2
+	ON t1.industry = t2.company
+SET t1.industry = t2.industry
+where t1.industry is null 
+and t2.industry is not null
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

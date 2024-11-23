@@ -1,35 +1,41 @@
-/*Subqueries they are query withing a query uses the select
-From and where statement */
+-- subqueries a query withing another query
 
-SELECT *
-FROM EmployeSalary
-
--- subquery in select
-SELECT EmployeeID, Salary, (select AVG(Salary)From EmployeSalary) as AllAvgSalary
-FROM EmployeSalary
-
--- How to do it with partition By
-SELECT EmployeeID, Salary, AVG(Salary)OVER () as AllAvgSalary
-FROM EmployeSalary
-
--- Why group by doesn't work
-SELECT EmployeeID, Salary, AVG(Salary) as AllAvgSalary
-FROM EmployeSalary
-GROUP BY EmployeeID, salary
-ORDER BY 1,2
-
---subqueries in from
-
-SELECT a.EmployeeID, AllAvgSalary
-FROM (SELECT EmployeeID, Salary, AVG(Salary)OVER () as AllAvgSalary
-      FROM EmployeSalary) a
+select *
+from employee_demographics
+WHERE employee_id IN 
+					(SELECT employee_id
+						FROM employee_salary
+                        WHERE dept_id = 1)
+;
 
 
--- subquery in where
-SELECT EmployeeID, JobTitle, Salary
-FROM EmployeSalary
-WHERE EmployeeID in (
-    select EmployeeID
-    FROM EmployeeDemographics
-    WHERE Age > 30
-) 
+
+-- subqueries with select statement
+# get the salary of the salary column regardless of the groupby columns
+
+SELECT first_name, salary, 
+(SELECT AVG(salary)
+FROM employee_salary
+) AS average_salary
+FROM employee_salary
+GROUP BY first_name, salary
+;
+
+-- subqueries with from statement
+SELECT gender, AVG(age), MAX(age), MIN(age), COUNT(age)
+FROM employee_demographics
+GROUP BY gender
+;
+
+
+-- SELECT gender, AVG(avg_max-- 
+SELECT AVG(avg_max)
+FROM
+(SELECT gender, 
+AVG(age) AS avg_age, 
+MAX(age) AS avg_max, 
+MIN(age) AS avg_min, 
+COUNT(age)
+FROM employee_demographics
+GROUP BY gender) AS Agg_table
+-- GROUP BY gender
