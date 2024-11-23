@@ -160,3 +160,4 @@ DROP COLUMN OwnerAddress, TaxDistrict, PropertyAddress
 
 ALTER TABLE Portfolio_project.dbo.NashvilleHousing
 DROP COLUMN SaleDate
+ 
