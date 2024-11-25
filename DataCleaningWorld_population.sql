@@ -71,6 +71,16 @@ SET Capital = CASE
 ;
 
 -- continent
-SELECT DISTINCT Continent
+SELECT  DISTINCT Continent
 FROM world_population
+;
+
+-- 2022 population
+SELECT [_2022_Population]
+FROM world_population
+;
+
+SELECT COLUMN_NAME, DATA_TYPE
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'world_population' AND COLUMN_NAME = '_2022_Population'
 ;
