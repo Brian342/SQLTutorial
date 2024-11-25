@@ -59,3 +59,7 @@ FROM world_population
 WHERE Capital LIKE '%Nay%'
 ;
 
+SELECT TRIM(Capital)AS trimmed
+FROM world_population
+WHERE Capital LIke '%Nay%'
+;
