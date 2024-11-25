@@ -54,12 +54,16 @@ GO -- end of the function
 UPDATE world_population
 SET Capital = dbo.removecharontheCapitalcolumn(Capital);
 
-SELECT Country,Capital
+SELECT *
 FROM world_population
-WHERE Capital LIKE '%Nay%'
+ORDER BY [Rank]
 ;
 
-SELECT TRIM(Capital)AS trimmed
-FROM world_population
-WHERE Capital LIke '%Nay%'
+
+UPDATE World_population
+SET Capital = CASE
+            WHEN Capital LIKE '%Nay%' 
+            THEN REPLACE(Capital, ' ', '') 
+            ELSE Capital
+            END
 ;
