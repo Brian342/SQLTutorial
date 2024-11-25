@@ -82,5 +82,10 @@ FROM world_population
 
 SELECT COLUMN_NAME, DATA_TYPE
 FROM INFORMATION_SCHEMA.COLUMNS
-WHERE TABLE_NAME = 'world_population' AND COLUMN_NAME = '_2022_Population'
+WHERE TABLE_NAME = 'world_population'
+;
+
+-- Replacing the NULL values with 0
+SELECT ISNULL([_2022_Population], 0) AS _2022_Population
+FROM world_population
 ;
