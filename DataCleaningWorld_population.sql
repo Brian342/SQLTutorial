@@ -18,7 +18,7 @@ ORDER BY [Rank]
 
 -- Removing speical characters on the Capital column
 GO -- Start of the removing special char on data set and also end of the select scrip
-CREATE FUNCTION dbo.removecharonCapital(@capitalInput NVARCHAR(MAX))
+CREATE FUNCTION dbo.removecharontheCapital(@capitalInput NVARCHAR(MAX))
 RETURNS NVARCHAR(Max)
 AS
 BEGIN
@@ -32,7 +32,7 @@ BEGIN
             IF @char LIKE '[a-zA-Z0-9]'
                 SET @capitalOutput = @capitalOutput + @char;
             ELSE
-                SET @capitalOutput = @capitalOutput + '';
+                SET @capitalOutput = @capitalOutput + '  ';
             SET @i = @i + 1;
         END
         RETURN LTRIM(RTRIM(@capitalOutput));
@@ -41,6 +41,10 @@ END;
 GO -- end of the function
 
 UPDATE world_population
+SET Capital = dbo.removecharonCapital(Capital);
 
-
+SELECT *
+FROM world_population
+ORDER BY [Rank] ASC
+;
 
