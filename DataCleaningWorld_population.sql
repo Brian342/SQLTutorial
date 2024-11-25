@@ -17,6 +17,8 @@ ORDER BY [Rank]
 ;
 
 -- Removing speical characters on the Capital column
+
+
 GO -- Start of the removing special char on data set and also end of the select scrip
 CREATE FUNCTION dbo.removecharontheCapitalcolumn(@capitalInput NVARCHAR(MAX))
 RETURNS NVARCHAR(Max)
@@ -66,4 +68,9 @@ SET Capital = CASE
             THEN REPLACE(Capital, ' ', '') 
             ELSE Capital
             END
+;
+
+-- continent
+SELECT DISTINCT Continent
+FROM world_population
 ;
