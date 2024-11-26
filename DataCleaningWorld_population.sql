@@ -85,11 +85,13 @@ SET Capital = CASE
 ;
 
 -- continent
+
 SELECT  DISTINCT Continent
 FROM world_population
 ;
 
 -- 2022 population
+
 SELECT [_2022_Population]
 FROM world_population
 ;
@@ -103,15 +105,23 @@ WHERE TABLE_NAME = 'world_population'
 -- Replacing the NULL values with 0
 
 UPDATE world_population
-SET [_2020_Population] = COALESCE([_2020_Population], 0)                 
+SET [Growth_Rate] = COALESCE([Growth_Rate], 0)                 
 ;
 
-SELECT _2020_Population
+SELECT _2010_Population
 FROM world_population
-WHERE _2020_Population = NULL
 ORDER BY [Rank]
 ;
 
 SELECT *
 FROM world_population
 ;
+
+-- rounding of the float columns to 2 decimal places
+SELECT ROUND(Density_per_km, 2) AS Decimalcolumn
+FROM world_population
+;
+
+-- updating the column
+UPDATE world_population
+SET Growth_Rate =  ROUND(Growth_Rate, 2)
