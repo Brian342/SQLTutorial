@@ -4,13 +4,27 @@ USE World_population
 SELECT *
 FROM world_population
 ;
+
+-- checking the data types of the columns
+
+
+SELECT COLUMN_NAME, DATA_TYPE
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'world_population'
+;
+
+
 -- sorting in ascending order the Dataset according to Rank 
+
+
 SELECT *
 FROM world_population
 ORDER BY [Rank] ASC
 ;
 
 -- cheking the columns
+
+
 SELECT Capital
 FROM world_population
 ORDER BY [Rank]
@@ -85,7 +99,10 @@ FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_NAME = 'world_population'
 ;
 
+
 -- Replacing the NULL values with 0
-SELECT ISNULL([_2022_Population], 0) AS _2022_Population
-FROM world_population
+
+UPDATE world_population
+SET [_2022_Population] = COALESCE([_2022_Population], 0)                 
 ;
+
