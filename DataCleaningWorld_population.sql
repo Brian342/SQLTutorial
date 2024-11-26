@@ -103,6 +103,15 @@ WHERE TABLE_NAME = 'world_population'
 -- Replacing the NULL values with 0
 
 UPDATE world_population
-SET [_2022_Population] = COALESCE([_2022_Population], 0)                 
+SET [_2020_Population] = COALESCE([_2020_Population], 0)                 
 ;
 
+SELECT _2020_Population
+FROM world_population
+WHERE _2020_Population = NULL
+ORDER BY [Rank]
+;
+
+SELECT *
+FROM world_population
+;
