@@ -61,7 +61,7 @@ WITH duplicate_cte AS
 (
 SELECT *,
 row_number() OVER(
-PARTITION BY
+PARTITION BYdirectorydirectory
 	company, location, industry, total_laid_off, percentage_laid_off, 
     'date', stage, country, funds_raised_millions) AS row_num
 FROM layoffs_staging
