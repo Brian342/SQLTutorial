@@ -1,8 +1,13 @@
 -- DROP DATABASE if EXISTS mpesa;
 -- CREATE DATABASE mpesa;
--- USE mpesa;
+USE mpesa;
 
+
+-- DROP TABLE IF EXISTS Mpesa_statement;
 SELECT *
-FROM sample_statement;
+FROM Mpesa_statement;
+
+
+
 
 
