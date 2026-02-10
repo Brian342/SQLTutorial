@@ -9,7 +9,10 @@ SELECT
     SUM(Est_gdp_in_billions) AS sum_Est_gdp_in_billions
 FROM
 	Access_to_basic_services
+WHERE Time_period =2020
+AND  Pct_managed_drinking_water_services < 60
 GROUP BY
 	Region, Sub_region
+HAVING sum_Est_gdp_in_billions < 4
 ORDER BY
-	sum_Est_gdp_in_billions;
+	sum_Est_gdp_in_billions ASC;
