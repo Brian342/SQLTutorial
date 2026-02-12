@@ -1,19 +1,11 @@
-/*
-Select Statements
-* Limit Distinct, Count, As, Max, Min, Avg
-*/
 SELECT *
-	FROM EmployeeDemographics
-	ORDER BY FirstName 
-    DESC LIMIT 5;
-
-
--- Distinct
-SELECT DISTINCT GENDER
-	FROM EmployeeDemographics;
+	FROM Parks_and_Recreation.employee_demographics;
     
--- COUNT
-SELECT COUNT(LastName) AS LastNameCount
-	FROM EmployeeDemographics;
-	
-	
+SELECT first_name,
+last_name,
+age,
+age + 10
+	FROM Parks_and_Recreation.employee_demographics;
+
+# PEMDAS (paranthesis, exponents, multiplication, division, addition, subtration)
+    
