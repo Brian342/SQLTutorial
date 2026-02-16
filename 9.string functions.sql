@@ -18,4 +18,6 @@ SELECT first_name, UPPER(first_name) AS caps_name
 	FROM Employee_demographics
 ;
 
--- Trim, LTrim, RTrim
+-- Trim, LTrim, RTrim takes white space either front or back of the space
+SELECT TRIM('             Sky            ') AS trim_space
+;
