@@ -21,3 +21,28 @@ SELECT first_name, UPPER(first_name) AS caps_name
 -- Trim, LTrim, RTrim takes white space either front or back of the space
 SELECT TRIM('             Sky            ') AS trim_space
 ;
+
+-- Ltrim
+SELECT LTRIM('             Sky            ') AS Ltrim_space
+;
+
+-- Rtrim
+SELECT RTRIM('             Sky            ') AS Rtrim_space
+;
+
+-- 
+SELECT first_name, LEFT(first_name, 4), -- how many characters we want from the left string
+	right(first_name, 4),
+	SUBSTRING(first_name, 3, 2), -- start at position 3 and stop at position 2
+    birth_date,
+    SUBSTRING(birth_date, 6, 2) months
+    FROM employee_demographics
+;
+
+
+
+
+
+
+
+
