@@ -35,8 +35,27 @@ SELECT first_name, LEFT(first_name, 4), -- how many characters we want from the 
 	right(first_name, 4),
 	SUBSTRING(first_name, 3, 2), -- start at position 3 and stop at position 2
     birth_date,
-    SUBSTRING(birth_date, 6, 2) months
+    SUBSTRING(birth_date, 6, 2) birth_months
     FROM employee_demographics
+;
+
+-- replace specific characters
+SELECT first_name, REPLACE(first_name, 'a', 'z') replace_letters
+	FROM employee_demographics
+;
+
+-- locate letter
+SELECT LOCATE('a', 'Brian')
+;
+
+SELECT first_name, LOCATE('An', first_name) locate_letters
+	FROM employee_demographics
+;
+
+-- Concatenation
+SELECT first_name, last_name,
+	concat(first_name,' ',last_name) full_names
+	FROM employee_demographics
 ;
 
 
