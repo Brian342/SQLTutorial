@@ -1,3 +1,5 @@
+use Parks_and_Recreation
+;
 SELECT dem.first_name, dem.last_name,gender, AVG(salary) AS avg_salary
 	FROM employee_demographics dem
     JOIN employee_salary sal
