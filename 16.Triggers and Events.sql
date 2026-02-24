@@ -1,0 +1,2 @@
+-- Triggers and Events 
+-- Triggers are a block of code that execute automatically when and events takes place in a table
