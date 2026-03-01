@@ -35,6 +35,21 @@ SELECT *,
 	FROM dup_soccer_table
 ;
 
+# using CTE to remove duplicate
+WITH cte_duplicate AS
+(
+	SELECT *,
+	ROW_NUMBER() OVER(
+    PARTITION BY Brand, `Store Number`, `Store Name`, `Ownership Type`,`Street Address`, 
+    City, `State/Province`, Country,Postcode, `Phone Number`, Timezone, Longitude, Latitude) As row_num
+	FROM dup_soccer_table
+)
+SELECT *
+	FROM cte_duplicate
+    WHERE row_num > 1
+;
+# No duplicate values on this dataset
+
 
 
 
