@@ -49,7 +49,7 @@ SELECT *
     WHERE row_num > 1
 ;
 # No duplicate values on this dataset
-CREATE TABLE `dup_soccer_table` (
+CREATE TABLE `dup_soccer_table2` (
   `Brand` text,
   `Store Number` text,
   `Store Name` text,
@@ -62,8 +62,42 @@ CREATE TABLE `dup_soccer_table` (
   `Phone Number` text,
   `Timezone` text,
   `Longitude` double DEFAULT NULL,
-  `Latitude` double DEFAULT NULL
+  `Latitude` double DEFAULT NULL,
+  `row_num` INT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+SELECT *
+	FROM dup_soccer_table2
+;
+
+INSERT INTO dup_soccer_table2
+SELECT *,
+ROW_NUMBER() OVER(
+PARTITION BY 
+	Brand, `Store Number`, `Store Name`, `Ownership Type`,`Street Address`, 
+    City, `State/Province`, Country, Postcode, `Phone Number`, Timezone, Longitude, Latitude) As row_num
+FROM dup_soccer_table
+;
+
+SELECT *
+	FROM dup_soccer_table2
+WHERE row_num > 1
+;
+# Delete the duplicate value
+DELETE
+	FROM dup_soccer_table2
+WHERE row_num > 1
+;
+
+# check if the data is deleted
+SELECT *
+	FROM dup_soccer_table2
+WHERE row_num > 1
+;
+
+
+-- 2. Standardize the data(finding issues in the dataset and handling them)
+
 
 
 
