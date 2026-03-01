@@ -49,6 +49,24 @@ SELECT *
     WHERE row_num > 1
 ;
 # No duplicate values on this dataset
+CREATE TABLE `dup_soccer_table` (
+  `Brand` text,
+  `Store Number` text,
+  `Store Name` text,
+  `Ownership Type` text,
+  `Street Address` text,
+  `City` text,
+  `State/Province` text,
+  `Country` text,
+  `Postcode` text,
+  `Phone Number` text,
+  `Timezone` text,
+  `Longitude` double DEFAULT NULL,
+  `Latitude` double DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+
 
 
 
