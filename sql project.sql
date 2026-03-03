@@ -97,8 +97,9 @@ WHERE row_num > 1
 
 
 -- 2. Standardize the data(finding issues in the dataset and handling them)
-
-
+SELECT *
+	FROM databasesoccer.dup_soccer_table2
+;
 
 
 
