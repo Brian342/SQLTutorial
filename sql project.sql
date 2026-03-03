@@ -121,6 +121,12 @@ UPDATE databasesoccer.dup_soccer_table2
 	SET `Store Name` = TRIM(`Store Name`)
 ;
 
+-- check the Ownership Type column
+SELECT DISTINCT `Ownership Type`
+	FROM databasesoccer.dup_soccer_table2
+;
+
+
 
 
 
