@@ -126,7 +126,7 @@ SELECT DISTINCT `Ownership Type`
 	FROM databasesoccer.dup_soccer_table2
 ;
 
-
+-- check the Street address of the table and update it
 SELECT `Street Address`
 	FROM databasesoccer.dup_soccer_table2
 ;
@@ -136,9 +136,10 @@ UPDATE databasesoccer.dup_soccer_table2
 ;
 
 
-
-
-
+-- check the city column
+SELECT city
+	FROM databasesoccer.dup_soccer_table2
+;
 
 
 
