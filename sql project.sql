@@ -101,6 +101,29 @@ SELECT *
 	FROM databasesoccer.dup_soccer_table2
 ;
 
+-- return unique value
+SELECT DISTINCT Brand
+	FROM databasesoccer.dup_soccer_table2
+;
+
+-- return store number 
+SELECT  `Store Number`, row_num
+	FROM databasesoccer.dup_soccer_table2
+;
+
+-- trim the store name column
+SELECT TRIM(`Store Name`) store_Name_trimmed
+	FROM databasesoccer.dup_soccer_table2
+;
+
+-- update the trimmed store name in the table
+UPDATE databasesoccer.dup_soccer_table2
+	SET `Store Name` = TRIM(`Store Name`)
+;
+
+
+
+
 
 
 
