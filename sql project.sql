@@ -150,15 +150,15 @@ SELECT DISTINCT `State/Province`
 ;
 
 SELECT  Brand, 
-`Ownership Type`,
-Country,
-Postcode,
-`Phone Number`,
-Timezone,
-Longitude,
-Latitude,
-`Store Number`,
-`Street Address`,City,`State/Province`, `Phone Number`
+	`Ownership Type`,
+	Country,
+	Postcode,
+	`Phone Number`,
+	Timezone,
+	Longitude,
+	Latitude,
+	`Store Number`,
+	`Street Address`,City,`State/Province`, `Phone Number`
 	FROM databasesoccer.dup_soccer_table2
     WHERE `State/Province` = 7
 ;
