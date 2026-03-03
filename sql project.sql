@@ -127,7 +127,13 @@ SELECT DISTINCT `Ownership Type`
 ;
 
 
+SELECT `Street Address`
+	FROM databasesoccer.dup_soccer_table2
+;
 
+UPDATE databasesoccer.dup_soccer_table2
+	SET `Street Address` = TRIM(`Street Address`)
+;
 
 
 
