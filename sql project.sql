@@ -136,11 +136,32 @@ UPDATE databasesoccer.dup_soccer_table2
 ;
 
 
--- check the city column
-SELECT city
+-- check the city column and trim any spaces
+SELECT DISTINCT city
 	FROM databasesoccer.dup_soccer_table2
 ;
 
+UPDATE databasesoccer.dup_soccer_table2
+	SET city = TRIM(City)
+;
+
+SELECT DISTINCT `State/Province`
+	FROM databasesoccer.dup_soccer_table2
+;
+
+SELECT  Brand, 
+`Ownership Type`,
+Country,
+Postcode,
+`Phone Number`,
+Timezone,
+Longitude,
+Latitude,
+`Store Number`,
+`Street Address`,City,`State/Province`, `Phone Number`
+	FROM databasesoccer.dup_soccer_table2
+    WHERE `State/Province` = 7
+;
 
 
 
