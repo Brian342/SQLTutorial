@@ -149,7 +149,7 @@ SELECT DISTINCT `State/Province`
 	FROM databasesoccer.dup_soccer_table2
 ;
 
-SELECT  Brand, 
+SELECT  DISTINCT Brand, 
 	`Ownership Type`,
 	Country,
 	Postcode,
@@ -160,7 +160,40 @@ SELECT  Brand,
 	`Store Number`,
 	`Street Address`,City,`State/Province`, `Phone Number`
 	FROM databasesoccer.dup_soccer_table2
-    WHERE `State/Province` = 7
+    WHERE `State/Province` = 'DU'
+;
+
+-- check the Country column
+SELECT DISTINCT Country
+	FROM databasesoccer.dup_soccer_table2
+;
+
+-- check the postacode and fill null with 0
+SELECT Postcode
+	FROM databasesoccer.dup_soccer_table2
+;
+
+-- update and fill the PostCode null values to 0 Option 1
+
+/*
+UPDATE databasesoccer.dup_soccer_table2
+ 	SET Postcode = 0
+     WHERE Postcode IS NULL
+;
+*/
+
+-- Option 2 filling the Null values with 0
+SELECT COALESCE(Postcode, 0) As PostCode
+	FROM databasesoccer.dup_soccer_table2
+;
+
+
+SELECT `Phone Number`
+	FROM databasesoccer.dup_soccer_table2
+;
+
+SELECT *
+	FROM databasesoccer.dup_soccer_table2
 ;
 
 
@@ -168,9 +201,7 @@ SELECT  Brand,
 
 
 
-
-
-
+-- change the datatype of the columns
 
 
 
